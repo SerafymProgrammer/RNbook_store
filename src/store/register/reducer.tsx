@@ -8,7 +8,9 @@ export const initialState: RegisterState = {
 }
 
 const reducer: Reducer<RegisterState> = (state = initialState, action) => {
+
   switch (action.type) {
+    
     case RegisterActionTypes.REGISTER_REQUEST: {
       return { ...state, loading: true }
     }

@@ -15,15 +15,15 @@ export  interface User {
     isAdmin?: boolean;
   }
 
-  export enum RegisterActionTypes {
-    REGISTER_REQUEST = '@@register/REGISTER_REQUEST',
-    REGISTER_SUCCESS = '@@register/REGISTER_SUCCESS',
-    REGISTER_ERROR = '@@register/REGISTER_ERROR',
+  export enum LoginActionTypes {
+    LOGIN_REQUEST = '@@login/LOGIN_REQUEST',
+    LOGIN_SUCCESS = '@@login/LOGIN_SUCCESS',
+    LOGIN_ERROR = '@@login/LOGIN_ERROR',
   }
 
-  export interface RegisterState {
+  export interface LoginState {
      loading: boolean
-     data: UserRegister
+     token: any
      errors?: string
   }
   

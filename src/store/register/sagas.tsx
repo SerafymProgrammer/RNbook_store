@@ -5,13 +5,14 @@ import { callApi } from '../../utils/api'
 // tslint:disable-next-line:ordered-imports
 import { registerError, registerRequest ,registerSuccess} from './actions'
 import { RegisterActionTypes } from './types'
-const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:3000'
+const API_ENDPOINT = /*process.env.REACT_APP_API_ENDPOINT*/  'http://10.10.3.80:3010'
 
 function* handleFetch(data: ReturnType<typeof registerRequest>) {
+  debugger
   try {
-    const res = yield call(callApi, 'POST', API_ENDPOINT, '/auth/register', data.payload)
+    const res = yield call(callApi, 'POST', API_ENDPOINT, '/auth/register',Object.assign(data.payload, {isAdmin: true}) )
 
-    
+    debugger
 
     if (res.error) {
       yield put(registerError(res.error))

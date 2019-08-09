@@ -2,7 +2,7 @@ import { AsyncStorage } from "react-native";
 import {User, UserRegister} from "../store/register/types";
 
 
-export async function callApi(method: string, url: string, path: string, data?: User| UserRegister) {
+export async function callApi(method: string = 'GET', url: string = 'http://10.10.3.80:3010', path: string ='/books', data?: User| UserRegister) {
 
   // const user = await JSON.parse( AsyncStorage.getItem('user') as string)
 
@@ -19,17 +19,19 @@ export async function callApi(method: string, url: string, path: string, data?: 
   //   };
   //   } else {
       httpHeaders = { 
-        'Content-Type' : 'application/x-www-form-urlencoded', 
+        'Content-Type' : 'application/json', 
         'Accept' : 'application/json'
       };
     // }
     // tslint:disable-next-line:prefer-template
+    debugger
+    
+    
     const res = await fetch(url  +''+ path, {
       method,
       headers: new Headers(httpHeaders),
       body: JSON.stringify(data)
     })
-
-    return res.json()
+    debugger
+    return res.json();
   }
-  

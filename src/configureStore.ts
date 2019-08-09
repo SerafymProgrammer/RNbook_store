@@ -21,6 +21,7 @@ export default function configureStore(
   const store = createStore(
     createRootReducer(),
    // initialState,
+   
     composeEnhancers(applyMiddleware(routerMiddleware(history), sagaMiddleware))
   )
 

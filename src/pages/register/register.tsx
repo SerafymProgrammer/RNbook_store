@@ -1,27 +1,23 @@
+
 import * as React from "react";
 import {
   Image,
   KeyboardAvoidingView,
   StyleSheet,
   View,
-  StatusBar,
-  AsyncStorage,
-  Alert
+  StatusBar
 } from "react-native";
-import ButtonLogin from "./ButtonLogin";
+import Button from "./Button";
 import FormTextInput from "./FormTextInput";
 
 import colors from "./config/colors";
 import strings from "./config/strings";
-import { UserRegister, User } from "../../store/register/types";
+import { UserRegister } from "../../store/register/types";
 import { registerRequest } from "../../store/register/actions";
 import { ConnectedReduxProps } from "../../interfaces/connectedReduxProps";
 import { connect } from "react-redux";
 import { ApplicationState } from "../../store";
-import jwt from 'jwt-decode';
-import { loginRequest } from "../../store/login/actions";
-import { Header, Left, Button, Icon, Title, Body, Right, Container, Content } from "native-base";
-
+import { Input } from 'react-native-ui-kitten';
 
 
 type MyProps = { email: string, password: string };
@@ -30,14 +26,14 @@ type MyState = { email: string, password: string };
 
 interface PropsFromState {
   loading: boolean
-  token: any
+  data: UserRegister
   errors?: string
 }
 
 
 
 interface PropsFromDispatch {
-  loginRequest: typeof loginRequest
+  registerRequest: typeof registerRequest
 }
 type AllProps = PropsFromState & PropsFromDispatch & ConnectedReduxProps
 
@@ -45,14 +41,15 @@ type AllProps = PropsFromState & PropsFromDispatch & ConnectedReduxProps
 interface State {
   email: string;
   password: string;
-
+  confirm_password:string;
 }
 
-class LoginScreen extends React.Component<AllProps, State> {
-
-  passwordInputRef = React.createRef<FormTextInput>();
+class RegisterScreen extends React.Component<AllProps, State> {
 
   
+  passwordInputRef = React.createRef<FormTextInput>();
+
+
   constructor(props: AllProps) {
     super(props);
     debugger
@@ -66,7 +63,7 @@ class LoginScreen extends React.Component<AllProps, State> {
    state: State = {
     email: "",
     password: "",
-
+    confirm_password: ""
   };
 
   handleEmailChange = (email: string) => {
@@ -76,7 +73,9 @@ class LoginScreen extends React.Component<AllProps, State> {
   handlePasswordChange = (password: string) => {
     this.setState({ password: password });
   };
-  
+  handleConfirmPasswordChange = (confirm_password: string) => {
+    this.setState({ confirm_password: confirm_password });
+  };
 
   handleEmailSubmitPress = () => {
     if (this.passwordInputRef.current) {
@@ -86,21 +85,19 @@ class LoginScreen extends React.Component<AllProps, State> {
 
 
 
- handleLoginPress=async () => {
-   const addUser: UserRegister = this.state;
+ handleRegisterPress= () => {
+   if(this.state.password!==this.state.confirm_password) {
+     return;
+   } 
+  const addUser: UserRegister = this.state;
   debugger
-  await this.props.loginRequest(addUser);
-   let currentUser = '';
-  await AsyncStorage.getItem('user').then(value => {
-    console.log(value)
-  });
-  //  alert(CurrentUser.email)
+  this.props.registerRequest(addUser);
     this.props.navigation.navigate('Home')
   };
 
   render() {
     debugger
-    const {token} = this.props;
+    const {data} = this.props;
     const {
       email,
       password,
@@ -116,35 +113,21 @@ class LoginScreen extends React.Component<AllProps, State> {
         ? strings.PASSWORD_REQUIRED
         : undefined;
     return (
-
-
-      // <KeyboardAvoidingView
-      //   style={styles.container}
-      //   // On Android the keyboard behavior is handled
-      //   // by Android itself, so we should disable it
-      //   // by passing `undefined`.
+      <KeyboardAvoidingView
+        style={styles.container}
+        // On Android the keyboard behavior is handled
+        // by Android itself, so we should disable it
+        // by passing `undefined`.
       
-      // >
-      //   <StatusBar
-      //     barStyle="dark-content"
-      //     backgroundColor="#FFFFFF"
-      //   />
+      >
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor="#FFFFFF"
+        />
         
-        <Container >
+        <View style={styles.form}>
 
-          <Header>
-            <Left>
-              <Button onPress={() => this.props.navigation.openDrawer()}>
-                <Icon name="menu" />
-                <Title>Menu</Title>
-              </Button>
-            </Left>
-            <Body>
-              <Title>HomeScreen</Title>
-            </Body>
-            <Right />
-          </Header>
-          <Content >
+          
           <FormTextInput
             value={this.state.email}
             onChangeText={this.handleEmailChange}
@@ -155,6 +138,7 @@ class LoginScreen extends React.Component<AllProps, State> {
             returnKeyType="next"
             error={emailError}
           />
+          
 
           
           <FormTextInput
@@ -167,15 +151,22 @@ class LoginScreen extends React.Component<AllProps, State> {
             error={passwordError}
           />
 
-        
-          <ButtonLogin
+          <FormTextInput
+            ref={this.passwordInputRef}
+            value={this.state.confirm_password}
+            onChangeText={this.handleConfirmPasswordChange}
+            placeholder={'Confirm password'}
+            secureTextEntry={true}
+            returnKeyType="done"
+            error={passwordError}
+          />
+          <Button
             label={strings.LOGIN}
-            onPress={this.handleLoginPress}
+            onPress={this.handleRegisterPress}
             disabled={!email || !password}
           />
-          </Content>
-        </Container>
-   //   </KeyboardAvoidingView>
+        </View>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -200,21 +191,14 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = ({ login }: ApplicationState) => ({
-  loading: login.loading,
-  data: login.token,
-  errors: login.errors
+const mapStateToProps = ({ register }: ApplicationState) => ({
+  loading: register.loading,
+  data: register.data,
+  errors: register.errors
 })
 
-// const mapStateToProps = ({ booksList }: ApplicationState) => ({
-//   loading: booksList.loading,
-//   errors: booksList.errors,s
-//   data: booksList.data
-// })
-
-
 const mapDispatchToProps = {
-  loginRequest
+  registerRequest
 }
 
 export default
@@ -222,5 +206,7 @@ export default
     mapStateToProps,
     mapDispatchToProps
   )(
-    LoginScreen
+    RegisterScreen
   )
+
+// export default RegisterScreen;
