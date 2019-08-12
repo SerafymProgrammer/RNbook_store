@@ -1,4 +1,3 @@
-// tslint:disable-next-line:ordered-imports
 import { routerMiddleware } from 'connected-react-router'
 import { History } from 'history'
 import { applyMiddleware, createStore, Store } from 'redux'

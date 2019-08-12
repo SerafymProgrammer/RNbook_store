@@ -6,7 +6,7 @@ import {
   View,
   StatusBar
 } from "react-native";
-import Button from "./Button";
+import ButtonRegister from "./ButtonRegister";
 import FormTextInput from "./FormTextInput";
 import colors from "./config/colors";
 import strings from "./config/strings";
@@ -15,7 +15,8 @@ import { registerRequest } from "../../store/register/actions";
 import { ConnectedReduxProps } from "../../interfaces/connectedReduxProps.interface";
 import { connect } from "react-redux";
 import { ApplicationState } from "../../store";
-import { Input } from 'react-native-ui-kitten';
+
+import { Left, Icon, Title, Body, Right, Button, Header, Container, Content } from "native-base";
 
 interface PropsFromState {
   loading: boolean
@@ -98,17 +99,25 @@ class RegisterScreen extends React.Component<AllProps, State> {
         ? strings.PASSWORD_REQUIRED
         : undefined;
     return (
-      <KeyboardAvoidingView
-        style={styles.container}
-      >
-        <StatusBar
-          barStyle="dark-content"
-          backgroundColor="#FFFFFF"
-        />
-
-        <View style={styles.form}>
 
 
+
+      <Container>
+
+        <Header>
+          <Left>
+            <Button onPress={() => this.props.navigation.openDrawer()} transparent>
+              <Icon name="menu" />
+
+            </Button>
+          </Left>
+          <Body>
+            <Title>Register</Title>
+          </Body>
+          <Right />
+        </Header>
+
+        <Content>
           <FormTextInput
             value={this.state.email}
             onChangeText={this.handleEmailChange}
@@ -119,8 +128,6 @@ class RegisterScreen extends React.Component<AllProps, State> {
             returnKeyType="next"
             error={emailError}
           />
-
-
 
           <FormTextInput
             ref={this.passwordInputRef}
@@ -141,13 +148,14 @@ class RegisterScreen extends React.Component<AllProps, State> {
             returnKeyType="done"
             error={passwordError}
           />
-          <Button
+          <ButtonRegister
             label={strings.LOGIN}
             onPress={this.handleRegisterPress}
             disabled={!email || !password}
           />
-        </View>
-      </KeyboardAvoidingView>
+        </Content>
+      </Container>
+
     );
   }
 }

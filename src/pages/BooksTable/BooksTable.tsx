@@ -4,7 +4,8 @@ import { ConnectedReduxProps } from "../../interfaces/connectedReduxProps.interf
 import { Book } from "../../store/booksList/types";
 import { ApplicationState } from "../../store";
 import { connect } from "react-redux";
-import { Container, Header, Content, Accordion, Left, Button, Icon, Title, Body, Right, Image, Text, List, Thumbnail, ListItem } from "native-base";
+import { Container, Header, Content, Accordion, Left, Button, Icon, Title, Body, Right, Text, List, Thumbnail, ListItem } from "native-base";
+import { Image } from "react-native-elements";
 
 interface PropsFromState {
   loading: boolean
@@ -14,58 +15,75 @@ interface PropsFromState {
 
 interface PropsFromDispatch {
   booksListRequest: typeof booksListRequest,
-
 }
 
 type AllProps = PropsFromState & PropsFromDispatch & ConnectedReduxProps
 
-const renderImg = (img: string) => <Image source={img} style={{ height: 200, width: null, flex: 1 }} />
 
 class BooksTable extends React.Component<AllProps>  {
-  constructor(props: AllProps) {
+
+
+  dataItemsArray(books: Book[]) {
+    const newDataItemsArray = [];
+
+    const renderContent = (img: string, author: string, description: string, price: string) => {
+        return (
+            <Content>
+                <Image source={{ uri: img }} style={{ width: 200, height: 100 }} />
+                <Text> Author: {author}</Text>
+                <Text>Description: {description}</Text>
+                <Text>Price: {price}</Text>
+                <Button style={{ width: 150 }}><Text>Edite</Text></Button>
+                <Button style={{ width: 150 }}><Text>Delete</Text></Button>
+            </Content>
+        )
+    }
+
+    for (const book of books) {
+        let thor ='';
+
+        if(book.author) {
+          thor = book.author 
+        }
+        newDataItemsArray.push({
+            title: book.name,
+            content: renderContent(book.img, thor, book.description, book.price)
+        }
+        )
+    }
+    return newDataItemsArray;
+}
+
+constructor(props: AllProps) {
     super(props);
-  }
+}
 
   public componentDidMount() {
     debugger
     this.props.booksListRequest()
   }
 
-  public render() {
+_renderContent(item: any) {
+    return (
+        <Content>
+            {item.content}
+        </Content>
+    );
+}
+
+public render() {
     debugger
     const { data } = this.props
-
+    const newBooksList = this.dataItemsArray(data);
     return (
-      <Container>
-        <Content padder>
-          <List>
-
-            {data.map((book) => {
-              debugger
-              return (
-                <ListItem thumbnail>
-                  <Left>
-                    <Thumbnail source={{ uri: book.img }} style={{ width: 10, height: 10 }} />
-                  </Left>
-                  <Body>
-                    <Text>{book.name}</Text>
-                    <Text note numberOfLines={1}>{book.description}</Text>
-                  </Body>
-                  <Right>
-                    <Button transparent>
-                      <Text>View</Text>
-                    </Button>
-                  </Right>
-                </ListItem>
-              )
-            })}
-
-          </List>
-        </Content>
-      </Container>
+        <Container>
+            <Content padder>
+                <Button><Text>Add New Book</Text></Button>
+                <Accordion dataArray={newBooksList} expanded={0} renderContent={this._renderContent} contentStyle={{ backgroundColor: "#ddecf8" }} />
+            </Content>
+        </Container>
     )
-  }
-
+}
 }
 
 const mapStateToProps = ({ booksList }: ApplicationState) => ({

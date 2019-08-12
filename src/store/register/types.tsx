@@ -1,9 +1,9 @@
 
 export interface User {
   id: number;
-  password?: string;
+  password: string;
   email: string;
-  passsword: string;
+
   img: string;
   userToken: string
   isAdmin?: boolean;

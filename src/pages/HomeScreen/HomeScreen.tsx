@@ -10,10 +10,9 @@ class HomeScreen extends React.Component {
           <Left>
             <Button onPress={() => this.props.navigation.openDrawer()}>
               <Icon name="menu" />
-
             </Button>
           </Left>
-          <Body>
+          <Body style = {{marginLeft: 20}}>
             <Title>HomeScreen</Title>
           </Body>
           <Right />
@@ -26,23 +25,6 @@ class HomeScreen extends React.Component {
               </Body>
             </CardItem>
           </Card>
-          <Button
-            small
-            rounded
-            dark
-            style={{ marginTop: 10 }}
-            onPress={() => this.props.navigation.navigate("Login")}
-          >
-          </Button>
-          <Button
-            full
-            rounded
-            primary
-            style={{ marginTop: 10 }}
-            onPress={() => this.props.navigation.navigate("Register")}
-          >
-            <Text>Goto Profiles</Text>
-          </Button>
         </Content>
       </Container>
     );

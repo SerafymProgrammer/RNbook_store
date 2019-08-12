@@ -2,9 +2,10 @@ import React from "react";
 import { ConnectedReduxProps } from "../../interfaces/connectedReduxProps.interface";
 import { ApplicationState } from "../../store";
 import { connect } from "react-redux";
-import { Container, Header, Content, Accordion, Left, Button, Icon, Title, Body, Right, Image, Text, List, Thumbnail, ListItem } from "native-base";
+import { Container, Header, Content, Accordion, Left, Button, Icon, Title, Body, Right, Text, List, Thumbnail, ListItem } from "native-base";
 import { User } from "../../store/register/types";
 import { usersListRequest } from "../../store/usersList/actions";
+import { Image } from "react-native-elements";
 
 interface PropsFromState {
     loading: boolean
@@ -19,6 +20,37 @@ interface PropsFromDispatch {
 type AllProps = PropsFromState & PropsFromDispatch & ConnectedReduxProps
 
 class UsersTable extends React.Component<AllProps>  {
+
+    dataItemsArray(users: User[]) {
+        const newDataItemsArray = [];
+
+        const renderContent = (img: string, password: string, isAdmin: boolean) => {
+            return (
+                <Content>
+                    <Image source={{ uri: img }} style={{ width: 200, height: 100 }} />
+                    <Text> Password: {password}</Text>
+                    <Text>Is Admin: {JSON.stringify(isAdmin)}</Text>
+                    <Button style={{ width: 150 }}><Text>Edite</Text></Button>
+                    <Button style={{ width: 150 }}><Text>Delete</Text></Button>
+                </Content>
+            )
+        }
+
+        for (const user of users) {
+            let is_Admin = true;
+
+            if (user.isAdmin) {
+                is_Admin = user.isAdmin
+            }
+            newDataItemsArray.push({
+                title: user.email,
+                content: renderContent(user.img, user.password, is_Admin)
+            }
+            )
+        }
+        return newDataItemsArray;
+    }
+
     constructor(props: AllProps) {
         super(props);
     }
@@ -28,38 +60,27 @@ class UsersTable extends React.Component<AllProps>  {
         this.props.usersListRequest()
     }
 
+    _renderContent(item: any) {
+        return (
+            <Content>
+                {item.content}
+            </Content>
+        );
+    }
+
     public render() {
         debugger
         const { users } = this.props
+        const newUsersList = this.dataItemsArray(users);
         return (
             <Container>
                 <Content padder>
-                    <List>
-                        {users.map((user) => {
-                            debugger
-                            return (
-                                <ListItem thumbnail>
-                                    <Left>
-                                        <Thumbnail source={{ uri: user.img }} style={{ width: 10, height: 10 }} />
-                                    </Left>
-                                    <Body>
-                                        <Text>{user.email}</Text>
-                                        <Text note numberOfLines={1}>{user.passsword}</Text>
-                                    </Body>
-                                    <Right>
-                                        <Button transparent>
-                                            <Text>View</Text>
-                                        </Button>
-                                    </Right>
-                                </ListItem>
-                            )
-                        })}
-                    </List>
+                    <Button><Text>Add New User</Text></Button>
+                    <Accordion dataArray={newUsersList} expanded={0} renderContent={this._renderContent} contentStyle={{ backgroundColor: "#ddecf8" }} />
                 </Content>
             </Container>
         )
     }
-
 }
 
 const mapStateToProps = ({ usersList }: ApplicationState) => ({

@@ -13,11 +13,9 @@ import FormTextInput from "./FormTextInput";
 import colors from "./config/colors";
 import strings from "./config/strings";
 import { UserRegister, User } from "../../store/register/types";
-import { registerRequest } from "../../store/register/actions";
 import { ConnectedReduxProps } from "../../interfaces/connectedReduxProps.interface";
 import { connect } from "react-redux";
 import { ApplicationState } from "../../store";
-import jwt from 'jwt-decode';
 import { loginRequest } from "../../store/login/actions";
 import { Header, Left, Button, Icon, Title, Body, Right, Container, Content } from "native-base";
 
@@ -94,13 +92,12 @@ class LoginScreen extends React.Component<AllProps, State> {
 
         <Header>
           <Left>
-            <Button onPress={() => this.props.navigation.openDrawer()}>
+            <Button onPress={() => this.props.navigation.openDrawer()} transparent>
               <Icon name="menu" />
-              <Title>Menu</Title>
             </Button>
           </Left>
           <Body>
-            <Title>HomeScreen</Title>
+            <Title>Login</Title>
           </Body>
           <Right />
         </Header>
