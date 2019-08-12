@@ -22,6 +22,8 @@ function* handleFetch(data: ReturnType<typeof loginRequest>) {
 
       const decode: User = jwt(res.userToken);
       AsyncStorage.setItem('user', JSON.stringify({userToken: res.userToken, email: decode.email, id: decode.id, img: res.img}));
+      const dd = AsyncStorage.getItem('user');
+      JSON.parse(dd)
       yield put(loginSuccess())
     }
   } catch (err) {

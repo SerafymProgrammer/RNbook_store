@@ -10,7 +10,7 @@ import {
   Content,
   Icon
 } from "native-base";
-const routes = ["Home", "Launch", "Login", "Register", "Books"];
+const routes = ["Home", "Launch", "Login", "Register", "Books", "AdminPanel"];
 class SideBar extends React.Component {
   render() {
     return (

@@ -8,6 +8,8 @@ import LoginScreen from "../pages/loginScreen/loginScreen";
 import RegisterScreen from "../pages/register/register";
 import BooksScreen from "../pages/booksScreen/booksScreen";
 import SideBar from "../components/SideBar";
+import BooksTable from "../pages/BooksTable/BooksTable";
+import AdminPanel from "../pages/AdminPage/AdminPage";
 
 const DrawerNavigator = createDrawerNavigator({
   /*To have a header on the drawer screens, 
@@ -17,7 +19,8 @@ const DrawerNavigator = createDrawerNavigator({
     Launch: { screen: Launch },
     Login: { screen: LoginScreen },
     Register: { screen: RegisterScreen },
-    Books: { screen: BooksScreen }
+    Books: { screen: BooksScreen },
+    AdminPanel: {screen: AdminPanel}
 },
 {
     contentComponent: props => <SideBar {...props} />,

@@ -11,11 +11,15 @@ import booksSaga from './booksList/sagas';
 import { LoginState } from './login/types';
 import { loginReducer } from './login/reducer';
 import loginSaga from './login/sagas';
+import { UsersListState } from './usersList/types';
+import { usersReducer } from './usersList/reducer';
+import usersSaga from './usersList/sagas';
 
 
 export interface ApplicationState {
   register: RegisterState,
   login: LoginState,
+  usersList: UsersListState,
   booksList: BooksListState
 }
 
@@ -29,9 +33,10 @@ export const createRootReducer = () =>
   combineReducers({
     register: registerReducer,
     login: loginReducer,
+    usersList: usersReducer,
     booksList: booksReducer,
   })
 
 
  export function* rootSaga() {
-   yield all([fork(registerSaga), fork(booksSaga), fork(loginSaga)]) }
+   yield all([fork(registerSaga), fork(usersSaga), fork(booksSaga), fork(loginSaga)]) }
