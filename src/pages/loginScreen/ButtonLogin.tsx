@@ -7,7 +7,7 @@ import {
 import colors from "./config/colors";
 
 interface Props {
-  disabled?: boolean; // Add a "disabled" prop
+  disabled?: boolean;
   label: string;
   onPress: () => void;
 }
@@ -15,7 +15,6 @@ interface Props {
 class ButtonLogin extends React.Component<Props> {
   render() {
     const { disabled, label, onPress } = this.props;
-    // If the button is disabled we lower its opacity
     const containerStyle = [
       styles.container,
       disabled

@@ -12,9 +12,7 @@ import BooksTable from "../pages/BooksTable/BooksTable";
 import AdminPanel from "../pages/AdminPage/AdminPage";
 
 const DrawerNavigator = createDrawerNavigator({
-  /*To have a header on the drawer screens, 
-        there must be a navigator that includes the screen you want to add to the drawer navigator.
-        See 'screen-stack-navigator' file*/
+
     Home: { screen: HomeScreen },
     Launch: { screen: Launch },
     Login: { screen: LoginScreen },

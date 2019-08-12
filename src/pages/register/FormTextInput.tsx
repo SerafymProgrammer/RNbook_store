@@ -1,4 +1,3 @@
-    
 import * as React from "react";
 import {
   NativeSyntheticEvent,
@@ -37,8 +36,7 @@ class FormTextInput extends React.Component<Props, State> {
     e: NativeSyntheticEvent<TextInputFocusEventData>
   ) => {
     this.setState({ isFocused: true });
-    // Remember to propagate the `onFocus` event to the
-    // parent as well (if set)
+
     if (this.props.onFocus) {
       this.props.onFocus(e);
     }
@@ -48,23 +46,12 @@ class FormTextInput extends React.Component<Props, State> {
     e: NativeSyntheticEvent<TextInputFocusEventData>
   ) => {
     this.setState({ isFocused: false });
-    // Remember to propagate the `onBlur` event to the
-    // parent as well (if set)
     if (this.props.onBlur) {
       this.props.onBlur(e);
     }
   };
 
   render() {
-    // On Android we want to change the color of the input
-    // underline when it is focused. To do so this component
-    // must be aware of being focused, so we'll use the
-    // TextInput `onFocus` and `onBlur` callbacks to set
-    // a variable in the state that keeps track of when the
-    // TextInput is focused.
-    // We should also make sure to remove the `onFocus` and
-    // `onBlur` props from the `...otherProps`, otherwise
-    // they would override our own handlers.
     const {
       error,
       onFocus,
@@ -105,8 +92,6 @@ const styles = StyleSheet.create({
         borderColor: colors.SILVER,
         borderBottomWidth: StyleSheet.hairlineWidth
       },
-      // The underline on Android is slightly misaligned so
-      // we fix it by adding a left padding here...
       android: {
         paddingLeft: 6
       }
@@ -115,7 +100,6 @@ const styles = StyleSheet.create({
   errorText: {
     height: 20,
     color: colors.TORCH_RED,
-    // ...and here as well
     ...Platform.select({
       android: {
         paddingLeft: 6

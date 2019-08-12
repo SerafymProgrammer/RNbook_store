@@ -7,7 +7,7 @@ import {
 import colors from "./config/colors";
 
 interface Props {
-  disabled?: boolean; // Add a "disabled" prop
+  disabled?: boolean;
   label: string;
   onPress: () => void;
 }

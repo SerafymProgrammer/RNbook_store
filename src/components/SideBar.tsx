@@ -1,6 +1,5 @@
     
 import React from "react";
-import { AppRegistry, Image, StatusBar } from "react-native";
 import {
   Button,
   Text,
@@ -16,7 +15,6 @@ class SideBar extends React.Component {
     return (
       <Container>
         <Content>
-         
         <List
             dataArray={routes}
             contentContainerStyle={{ marginTop: 120 }}

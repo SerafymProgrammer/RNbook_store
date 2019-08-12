@@ -1,11 +1,8 @@
-
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
-// tslint:disable-next-line:ordered-imports
 import { callApi } from '../../utils/api'
-// tslint:disable-next-line:ordered-imports
 import { registerError, registerRequest ,registerSuccess} from './actions'
 import { RegisterActionTypes } from './types'
-const API_ENDPOINT = /*process.env.REACT_APP_API_ENDPOINT*/  'http://10.10.3.80:3010'
+const API_ENDPOINT = 'http://10.10.3.80:3010'
 
 function* handleFetch(data: ReturnType<typeof registerRequest>) {
   debugger

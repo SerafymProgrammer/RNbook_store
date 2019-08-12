@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Container, Header, Tab, Tabs, TabHeading, Icon, Text, Left, Button, Title, Body, Right } from 'native-base';
 import BooksTable from '../BooksTable/BooksTable';
 import UsersTable from '../UsersTable/UsersTable';
-// import Tab2 from './tabTwo';
-// import Tab3 from './tabThree';
+
 export default class AdminPanel extends Component {
   render() {
     return (
@@ -20,14 +19,14 @@ export default class AdminPanel extends Component {
           <Right />
         </Header>
         <Tabs>
-          <Tab heading={ <TabHeading><Text>Books</Text></TabHeading>}>
+          <Tab heading={<TabHeading><Text>Books</Text></TabHeading>}>
             <BooksTable />
           </Tab>
-          <Tab heading={ <TabHeading><Text>Users</Text></TabHeading>}>
+          <Tab heading={<TabHeading><Text>Users</Text></TabHeading>}>
             <UsersTable />
           </Tab>
-          <Tab heading={ <TabHeading><Text>Setting Profile</Text></TabHeading>}>
-          <Text>hgfhghf</Text>
+          <Tab heading={<TabHeading><Text>Setting Profile</Text></TabHeading>}>
+            <Text>hgfhghf</Text>
           </Tab>
         </Tabs>
       </Container>

@@ -10,19 +10,16 @@ import {
 } from "react-native";
 import ButtonLogin from "./ButtonLogin";
 import FormTextInput from "./FormTextInput";
-
 import colors from "./config/colors";
 import strings from "./config/strings";
 import { UserRegister, User } from "../../store/register/types";
 import { registerRequest } from "../../store/register/actions";
-import { ConnectedReduxProps } from "../../interfaces/connectedReduxProps";
+import { ConnectedReduxProps } from "../../interfaces/connectedReduxProps.interface";
 import { connect } from "react-redux";
 import { ApplicationState } from "../../store";
 import jwt from 'jwt-decode';
 import { loginRequest } from "../../store/login/actions";
 import { Header, Left, Button, Icon, Title, Body, Right, Container, Content } from "native-base";
-
-
 
 type MyProps = { email: string, password: string };
 
@@ -34,39 +31,25 @@ interface PropsFromState {
   errors?: string
 }
 
-
-
 interface PropsFromDispatch {
   loginRequest: typeof loginRequest
 }
-type AllProps = PropsFromState & PropsFromDispatch & ConnectedReduxProps
 
+type AllProps = PropsFromState & PropsFromDispatch & ConnectedReduxProps
 
 interface State {
   email: string;
   password: string;
-
 }
-
 class LoginScreen extends React.Component<AllProps, State> {
-
   passwordInputRef = React.createRef<FormTextInput>();
 
-  
   constructor(props: AllProps) {
     super(props);
-    debugger
-
   }
-
-  public componentDidMount() {
-    
-  }
-
-   state: State = {
+  state: State = {
     email: "",
     password: "",
-
   };
 
   handleEmailChange = (email: string) => {
@@ -76,7 +59,7 @@ class LoginScreen extends React.Component<AllProps, State> {
   handlePasswordChange = (password: string) => {
     this.setState({ password: password });
   };
-  
+
 
   handleEmailSubmitPress = () => {
     if (this.passwordInputRef.current) {
@@ -84,67 +67,45 @@ class LoginScreen extends React.Component<AllProps, State> {
     }
   };
 
-
-
- handleLoginPress=async () => {
-   const addUser: UserRegister = this.state;
-  debugger
-  await this.props.loginRequest(addUser);
-   let currentUser = '';
-  await AsyncStorage.getItem('user').then(value => {
-    console.log(value)
-  });
-  //  alert(CurrentUser.email)
+  handleLoginPress = async () => {
+    const addUser: UserRegister = this.state;
+    await this.props.loginRequest(addUser);
+    await AsyncStorage.getItem('user').then(value => {
+      console.log(value)
+    });
     this.props.navigation.navigate('Home')
   };
 
   render() {
-    debugger
-    const {token} = this.props;
     const {
       email,
       password,
-      // emailTouched,
-      // passwordTouched
     } = this.state;
     const emailError =
-      !email 
+      !email
         ? strings.EMAIL_REQUIRED
         : undefined;
     const passwordError =
-      !password 
+      !password
         ? strings.PASSWORD_REQUIRED
         : undefined;
     return (
+      <Container >
 
+        <Header>
+          <Left>
+            <Button onPress={() => this.props.navigation.openDrawer()}>
+              <Icon name="menu" />
+              <Title>Menu</Title>
+            </Button>
+          </Left>
+          <Body>
+            <Title>HomeScreen</Title>
+          </Body>
+          <Right />
+        </Header>
+        <Content >
 
-      // <KeyboardAvoidingView
-      //   style={styles.container}
-      //   // On Android the keyboard behavior is handled
-      //   // by Android itself, so we should disable it
-      //   // by passing `undefined`.
-      
-      // >
-      //   <StatusBar
-      //     barStyle="dark-content"
-      //     backgroundColor="#FFFFFF"
-      //   />
-        
-        <Container >
-
-          <Header>
-            <Left>
-              <Button onPress={() => this.props.navigation.openDrawer()}>
-                <Icon name="menu" />
-                <Title>Menu</Title>
-              </Button>
-            </Left>
-            <Body>
-              <Title>HomeScreen</Title>
-            </Body>
-            <Right />
-          </Header>
-          <Content >
           <FormTextInput
             value={this.state.email}
             onChangeText={this.handleEmailChange}
@@ -156,7 +117,6 @@ class LoginScreen extends React.Component<AllProps, State> {
             error={emailError}
           />
 
-          
           <FormTextInput
             ref={this.passwordInputRef}
             value={this.state.password}
@@ -167,15 +127,13 @@ class LoginScreen extends React.Component<AllProps, State> {
             error={passwordError}
           />
 
-        
           <ButtonLogin
             label={strings.LOGIN}
             onPress={this.handleLoginPress}
             disabled={!email || !password}
           />
-          </Content>
-        </Container>
-   //   </KeyboardAvoidingView>
+        </Content>
+      </Container>
     );
   }
 }
@@ -205,13 +163,6 @@ const mapStateToProps = ({ login }: ApplicationState) => ({
   data: login.token,
   errors: login.errors
 })
-
-// const mapStateToProps = ({ booksList }: ApplicationState) => ({
-//   loading: booksList.loading,
-//   errors: booksList.errors,s
-//   data: booksList.data
-// })
-
 
 const mapDispatchToProps = {
   loginRequest

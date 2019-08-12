@@ -3,7 +3,7 @@ import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
 // tslint:disable-next-line:ordered-imports
 import { callApi } from '../../utils/api'
 // tslint:disable-next-line:ordered-imports
-import { loginError, loginRequest ,loginSuccess} from './actions'
+import { loginError, loginRequest, loginSuccess } from './actions'
 import { LoginActionTypes, User } from './types'
 import jwt from 'jwt-decode';
 import { AsyncStorage } from 'react-native';
@@ -12,7 +12,7 @@ const API_ENDPOINT = /*process.env.REACT_APP_API_ENDPOINT*/  'http://10.10.3.80:
 function* handleFetch(data: ReturnType<typeof loginRequest>) {
   debugger
   try {
-    const res = yield call(callApi, 'POST', API_ENDPOINT, '/auth/login',data.payload )
+    const res = yield call(callApi, 'POST', API_ENDPOINT, '/auth/login', data.payload)
 
     debugger
 
@@ -21,7 +21,7 @@ function* handleFetch(data: ReturnType<typeof loginRequest>) {
     } else {
 
       const decode: User = jwt(res.userToken);
-      AsyncStorage.setItem('user', JSON.stringify({userToken: res.userToken, email: decode.email, id: decode.id, img: res.img}));
+      AsyncStorage.setItem('user', JSON.stringify({ userToken: res.userToken, email: decode.email, id: decode.id, img: res.img }));
       const dd = AsyncStorage.getItem('user');
       JSON.parse(dd)
       yield put(loginSuccess())

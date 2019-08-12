@@ -1,5 +1,3 @@
-import { connectRouter, RouterState } from 'connected-react-router'
-
 import { Action, AnyAction, combineReducers, Dispatch } from 'redux'
 import { all, fork } from 'redux-saga/effects'
 import { registerReducer } from './register/reducer';
@@ -15,7 +13,6 @@ import { UsersListState } from './usersList/types';
 import { usersReducer } from './usersList/reducer';
 import usersSaga from './usersList/sagas';
 
-
 export interface ApplicationState {
   register: RegisterState,
   login: LoginState,
@@ -23,11 +20,9 @@ export interface ApplicationState {
   booksList: BooksListState
 }
 
-
 export interface ConnectedReduxProps<A extends Action = AnyAction> {
   dispatch: Dispatch<A>
 }
-
 
 export const createRootReducer = () =>
   combineReducers({
@@ -37,6 +32,6 @@ export const createRootReducer = () =>
     booksList: booksReducer,
   })
 
-
- export function* rootSaga() {
-   yield all([fork(registerSaga), fork(usersSaga), fork(booksSaga), fork(loginSaga)]) }
+export function* rootSaga() {
+  yield all([fork(registerSaga), fork(usersSaga), fork(booksSaga), fork(loginSaga)])
+}
