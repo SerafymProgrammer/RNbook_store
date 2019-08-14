@@ -44,11 +44,17 @@ class LoginScreen extends React.Component<AllProps, State> {
 
   constructor(props: AllProps) {
     super(props);
+    const { navigation } = this.props;
+    const emailFromRegister = navigation.getParam('email');
+    const passwordFromRegister = navigation.getParam('password');
+
+    this.state ={
+      email:emailFromRegister || "" ,
+      password:passwordFromRegister || "",
+    }
+
   }
-  state: State = {
-    email: "",
-    password: "",
-  };
+
 
   handleEmailChange = (email: string) => {
     this.setState({ email: email });
@@ -75,9 +81,11 @@ class LoginScreen extends React.Component<AllProps, State> {
   };
 
   render() {
+
+    
     const {
-      email,
-      password,
+      email ,
+      password 
     } = this.state;
     const emailError =
       !email

@@ -13,7 +13,7 @@ export default class AdminPanel extends Component {
               <Icon name="menu" />
             </Button>
           </Left>
-          <Body>
+          <Body style = {{marginLeft: 20}}>
             <Title>Admin Panel</Title>
           </Body>
           <Right />

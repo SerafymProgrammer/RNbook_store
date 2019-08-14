@@ -33,23 +33,17 @@ type AllProps = PropsFromState & PropsFromDispatch & ConnectedReduxProps
 interface State {
   email: string;
   password: string;
-  confirm_password: string;
 }
 
-class RegisterScreen extends React.Component<AllProps, State> {
+class AddNewUser extends React.Component<AllProps, State> {
   passwordInputRef = React.createRef<FormTextInput>();
   constructor(props: AllProps) {
     super(props);
-    debugger
-  }
-  public componentDidMount() {
-
   }
 
   state: State = {
     email: "",
     password: "",
-    confirm_password: ""
   };
 
   handleEmailChange = (email: string) => {
@@ -59,9 +53,7 @@ class RegisterScreen extends React.Component<AllProps, State> {
   handlePasswordChange = (password: string) => {
     this.setState({ password: password });
   };
-  handleConfirmPasswordChange = (confirm_password: string) => {
-    this.setState({ confirm_password: confirm_password });
-  };
+
 
   handleEmailSubmitPress = () => {
     if (this.passwordInputRef.current) {
@@ -69,26 +61,19 @@ class RegisterScreen extends React.Component<AllProps, State> {
     }
   };
 
-
-
   handleRegisterPress = () => {
-    if (this.state.password !== this.state.confirm_password) {
-      return;
-    }
     const addUser: UserRegister = this.state;
     debugger
     this.props.registerRequest(addUser);
-    this.props.navigation.navigate('Login', {email: this.state.email, password: this.state.password})
+    this.props.navigation.navigate('AdminPanel')
   };
 
   render() {
     debugger
-    const { data } = this.props;
+    const { navigation } = this.props;
     const {
       email,
       password,
-      // emailTouched,
-      // passwordTouched
     } = this.state;
     const emailError =
       !email
@@ -106,7 +91,7 @@ class RegisterScreen extends React.Component<AllProps, State> {
 
         <Header>
           <Left>
-            <Button onPress={() => this.props.navigation.openDrawer()} transparent>
+            <Button onPress={() => navigation.openDrawer()} transparent>
               <Icon name="menu" />
 
             </Button>
@@ -139,17 +124,8 @@ class RegisterScreen extends React.Component<AllProps, State> {
             error={passwordError}
           />
 
-          <FormTextInput
-            ref={this.passwordInputRef}
-            value={this.state.confirm_password}
-            onChangeText={this.handleConfirmPasswordChange}
-            placeholder={'Confirm password'}
-            secureTextEntry={true}
-            returnKeyType="done"
-            error={passwordError}
-          />
           <ButtonRegister
-            label={strings.LOGIN}
+            label={strings.ADD_NEW_USER}
             onPress={this.handleRegisterPress}
             disabled={!email || !password}
           />
@@ -195,5 +171,5 @@ export default
     mapStateToProps,
     mapDispatchToProps
   )(
-    RegisterScreen
+    AddNewUser
   )

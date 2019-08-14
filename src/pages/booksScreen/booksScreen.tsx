@@ -19,8 +19,6 @@ interface PropsFromDispatch {
 
 type AllProps = PropsFromState & PropsFromDispatch & ConnectedReduxProps
 
-const renderImg = (img: string) => <Image source={img} style={{ height: 200, width: null, flex: 1 }} />
-
 class BooksScreen extends React.Component<AllProps>  {
   constructor(props: AllProps) {
     super(props);
@@ -53,7 +51,6 @@ class BooksScreen extends React.Component<AllProps>  {
           <List>
 
             {data.map((book) => {
-              debugger
               return (
                 <ListItem thumbnail>
                   <Left>

@@ -8,7 +8,6 @@ export const initialState: UsersListState = {
 }
 
 const reducer: Reducer<UsersListState> = (state = initialState, action) => {
-  debugger
   switch (action.type) {
     case UsersListActionTypes.USERS_LIST_REQUEST: {
       return { ...state, loading: true }

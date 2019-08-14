@@ -10,6 +10,7 @@ export interface User {
 }
 
 export interface UserRegister {
+  img?: string;
   email: string;
   password: string;
   isAdmin?: boolean;
